@@ -1,4 +1,8 @@
 # POLIS MANAGER
+from os import system as cmd
+
+def clear():
+    cmd("cls")
 
 """
 ARMY
@@ -30,3 +34,38 @@ Increases infuence, happiness, and the number of trade partners
 POPULATION
 More of it = more chances at winning wars, more taxes coming in, 
 """
+
+class Polis:
+    def __init__(self, name, civ, army, metics):
+        self.name = name
+        self.civ = civ
+        self.army = army
+        self.metics = metics
+        self.pop = self.civ + self.army + self.metics
+        self.trade_partners = []
+        self.treasury = 100
+        self.happiness = 70
+        self.colonies = []
+        self.influence = 0
+    
+    def __str__(self):
+        tp = ""
+        for partner in self.trade_partners:
+            tp += partner + " "
+        cs = ""
+        for colony in self.colonies:
+            cs += colony + " "
+
+        return f"""Current state of {self.name}
+{"="*(len("Current state of ")+len(self.name))}
+Total population: {self.pop}
+Native civilians: {self.civ}
+Army: {self.army}
+Metics: {self.metics}
+Treasury: {self.treasury}
+Influence: {self.influence}
+Colonies: {cs}
+Trade partners: {tp}"""
+    
+polis = Polis(input("Name your city-state: "), 10, 10, 10)
+print(polis)
