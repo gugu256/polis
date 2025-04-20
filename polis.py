@@ -1,13 +1,12 @@
 # POLIS MANAGER
-from os import system as cmd
-from random import choice as choice_rnd
+import os
+from random import randint as int_rnd
 
 def do_nothing():
     pass
 
 def clear():
-    #cmd("cls")
-    cmd("clear")
+    os.system('cls' if os.name == 'nt' else 'clear')
     pass
 
 """
@@ -48,10 +47,11 @@ class Polis:
         self.army = army
         self.metics = metics
         self.pop = self.civ + self.army + self.metics
-        self.trade_partners = []
+        self.trade_partners = [] # trade allies
         self.treasury = 10000
         self.happiness = 70
         self.colonies = []
+        self.allies = [] # military allies
         self.influence = 0
         self.tax = {
             "civ": 1,
@@ -67,6 +67,9 @@ class Polis:
         cs = ""
         for colony in self.colonies:
             cs += colony + " "
+        al = ""
+        for ally in self.allies:
+            al += ally + " "  
 
         return f"""Current state of {self.name}
 {"="*(len("Current state of ")+len(self.name))}
@@ -77,6 +80,7 @@ Metics: {self.metics}
 Treasury: {self.treasury} drachmae
 Influence: {self.influence}
 Colonies: {cs}
+Allies: {al}
 Trade partners: {tp}\n"""
 
     def revolt(self):
@@ -96,8 +100,8 @@ Trade partners: {tp}\n"""
             print(f"Paid {self.army_pay * self.army} drachmae to the soldiers")
         else:
             print(f"{self.name} does not have enough money in its treasury to pay its army!")
-            if choice_rnd(True, False):
-                revolt()
+            if int_rnd(1, 2) == 1:
+                self.revolt()
             else:
                 print("The soldiers were understanding enough to not overthrow you,\nmake sure they are paid next time...")
         print("")        
