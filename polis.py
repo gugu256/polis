@@ -9,6 +9,61 @@ def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
     pass
 
+def pe(msg=""):
+    if msg=="":
+        input("\nPress Enter to continue/")
+    else:
+        input(f"\nPress Enter {msg}/")
+
+def load(t, l=10, task=""):
+    clear()
+    i = 0
+    while i <=l:
+        print(f"[{i*"■"}{(l-i)*" "}]")
+        print(task)
+        i+=1
+        wait(t)
+        clear()
+
+def q():
+    quit()
+
+def is_int(s):
+    return True if s in "0123456789" and s != "" else False
+
+def choose(msg, passages, passages_name, clearscreen=False, passage_title=""):
+    if clearscreen: 
+        clear()
+
+    if passage_title != "":
+        print(passage_title)
+        print("="*len(passage_title) + "\n")
+    
+    print(msg + "\n") if msg != "" else do_nothing()
+    i = 1
+    
+    for passage in passages_name:
+        print(f"{i} : {passage}")
+        i += 1
+    c = input("> ")
+
+    lower_passages = []
+    for passage in passages_name:
+        lower_passages.append(passage.lower())
+    
+    if is_int(c) and int(c) >= 1 and int(c) < i:
+        print()
+        passages[int(c)-1]()
+    elif c.lower() in lower_passages:
+        passages[lower_passages.index(c.lower())]()
+    elif c == "help":
+        h()
+        choose(msg, passages, passages_name, True, passage_title)
+    elif c == "quit":
+        q()
+    else:
+        choose(msg, passages, passages_name, clearscreen, passage_title)
+
 """
 ARMY
 Bigger army = higher odds of winning wars and successful colonization
@@ -114,4 +169,4 @@ while True:
     print(polis)
     polis.collect_taxes()
     polis.pay_army()
-    input("Press Enter to continue./")
+    pe()
